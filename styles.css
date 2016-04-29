@@ -1,0 +1,47 @@
+body {
+	background-color: black;
+}
+
+h1 {
+	/*color: #69D65E;*/
+	color: #54ab4b;
+	text-shadow: #000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px,
+             #000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px;
+    -webkit-font-smoothing: antialiased;
+}
+
+#videoDiv {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 5px;
+	height: 0;
+}
+
+#gameplayVid {
+	z-index: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 99%;
+}
+
+#factOverlay {
+	position: absolute;
+	z-index: 2;
+	top: 8%; 
+	left: 8%;
+	width: 675px;
+}
+
+#mapOverlay {
+	position: absolute; 
+	z-index: 1000;
+	top: 60%; 
+	left: 71%;
+	display: none;
+}
+
+[id^="s_"] {
+	display: none;
+}

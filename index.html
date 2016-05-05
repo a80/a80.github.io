@@ -2,36 +2,21 @@
 <html> 
 <head> 
 	<meta charset="utf-8">
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> 
-	<link href="styles.css" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-	<script type="text/javascript" src="logic.js"></script>
+	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="lib/polymaps.min.js"></script>
+
+	<link href="styles.css" rel="stylesheet">
+
+	<script type="text/javascript" src="map.js"></script>
 
 </head>
 
-<body> 
-	<!-- Insert video - fullscreen --> 
-	<div id="videoDiv">
-		<video id="gameplayVid" width="800" height="600" name="Video Name" src="racing_video.mov" autoplay="true"></video>
+<body>
+	<div class="header-div">
+		<h4>CMS.631 Final Project: Julia Appel, Judy Chang, Iris Fung, Eric Lau</h4>
 	</div>
-
-	<!-- Map overlay -->
-	<div id="mapOverlay">
-		<video id="progressMapVid" width="400" height="300" name="Video Name" src="progressMap.mov" autoplay="true"></video>
-	</div> 
-
-	<!-- Facts overlay --> 
-	<div id="factOverlay">
-		<h1 id='s_1'>DID YOU KNOW: On a typical workday, 227,645 people ride the Green line.</h1> 
-		<h1 id='s_2'>WAIT TIMES: At rush hour, a train leaves every 6 minutes.</h1> 
-		<h1 id='s_3'>WHERE AND WHENEVER YOU WANT: 18 Hubway stations are within 3 blocks of the E Extension.</h1> 
-		<h1 id='s_4'>JOIN IN: Between April 2011 and November 2013, 320,021 Hubway trips started and 294,605 trips ended at one of those 18 locations. </h1> 
-		<h1 id='s_5'>COMPARISON: Green Line average speed is 17.5 mph + waiting time. Average biking speed is 12-14 mph, no waiting needed!</h1> 
-		<h1 id='s_6'>HEALTH OF BOSTON: 56% of Bostonians are overweight or obese; 7% have diabetes; and 27% have heart disease.</h1> 
-		<h1 id='s_7'>BIKING BENEFITS: The average person burns 563 calories/hour biking at an average pace. </h1> 
-		<h1 id='s_8'>OUR PROGRESS SO FAR: Hubway riders burned 108,489,602 calories in 2015.  That’s almost 31,000 pounds!</h1> 
-	</div>
-
 </body>
-
-</html> 
+</html>

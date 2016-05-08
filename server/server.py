@@ -2,6 +2,7 @@ from flask import Flask
 from multiprocessing import Process, Value
 from crossdomain import crossdomain
 import audience
+import speedometer
 
 app = Flask(__name__)
 
@@ -9,7 +10,7 @@ app = Flask(__name__)
 @app.route("/speedometer")
 @crossdomain(origin='*')
 def get_rider_speed():
-	return str(10)
+	return str(speedometer.rider_speed.value)
 
 # GET CURRENT AUDIENCE NOISE LEVEL
 @app.route("/audience")
@@ -20,6 +21,8 @@ def get_audience_input() :
 def setup() :
 	p_audience = Process(target=audience.listen_audio)
 	p_audience.start()
+	p_speedometer = Process(target=speedometer.detect_speed)
+	p_speedometer.start()
 
 if __name__ == '__main__':
 	setup()

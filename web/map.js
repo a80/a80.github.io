@@ -11,8 +11,11 @@ $(document).ready(function() {
 	var TURBOBOOST_URL = "http://localhost:5000/audience"
 
 	var selected_route = 0;
-	var rider_speed = INITIAL_SPEED;
 	var gameOver = false;
+
+	// THE TWO VARIABLES THAT DRIVE EVERYTHING WOOOO
+	var rider_speed = INITIAL_SPEED;
+	var noise_level = 0;
 
 	function loadMap() {
 
@@ -181,13 +184,14 @@ $(document).ready(function() {
 		var timer;
 		timer = setInterval(function() {
 			$.get(SPEED_URL, function(d) {
-				console.log("NEW SPEED: ", d);
-				rider_speed = parseFloat(d); // @Judy: TODO
+				rider_speed = parseFloat(d);
+				console.log("RIDER SPEED: ", rider_speed);
 			});
 
 			$.get(TURBOBOOST_URL, function(d) {
 				// @Eric: d is the current noise level. what is this supposed to do?
-				console.log("NEW NOISE LEVEL: ", d);
+				noise_level = parseFloat(d);
+				console.log("NOISE LEVEL: ", noise_level);
 			});
 
 			if (gameOver) {

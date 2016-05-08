@@ -6,7 +6,9 @@ $(document).ready(function() {
 	var routeTimes = [9.9167, 8.7167]; // min
 
 	var INITIAL_SPEED = 9.6; // miles per hour
-	var SPEED_REFRESH_INTERVAL = 100; // millisecond
+	var REFRESH_INTERVAL = 200; // millisecond
+	var SPEED_URL = "http://localhost:5000/speedometer";
+	var TURBOBOOST_URL = "http://localhost:5000/audience_input"
 
 	var selected_route = 0;
 	var rider_speed = INITIAL_SPEED;
@@ -127,9 +129,9 @@ $(document).ready(function() {
 		var timer;
 		timer = setInterval(function() {
 			var svg_speed = rider_speed * pathLength / routeLength / 3600000.0;
-			var distance = SPEED_REFRESH_INTERVAL * svg_speed;
+			var distance = REFRESH_INTERVAL * svg_speed;
 
-			rider.transition().duration(SPEED_REFRESH_INTERVAL).ease("linear")
+			rider.transition().duration(REFRESH_INTERVAL).ease("linear")
 				.attrTween("transform", function() {
 					return function(t) {
 						var d = t * distance;
@@ -143,7 +145,7 @@ $(document).ready(function() {
 				clearInterval(timer);
 			}
 
-		}, SPEED_REFRESH_INTERVAL);
+		}, REFRESH_INTERVAL);
 	}
 
 	function loadVideo() {
@@ -161,7 +163,7 @@ $(document).ready(function() {
 			var speedup = rider_speed / videoSpeed;
 			popcorn.playbackRate(speedup);
 
-		}, SPEED_REFRESH_INTERVAL);
+		}, REFRESH_INTERVAL);
 	}
 
 	loadMap();
@@ -182,6 +184,19 @@ $(document).ready(function() {
 		animMap();
 		playVideo();
 	});
+
+	// START LISTENING FOR SPEED/AUDIENCE CHANGES
+	setInterval(function() {
+		$.get(SPEED_URL, function(d) {
+			console.log("NEW SPEED: ", d);
+			rider_speed = parseFloat(d); // WHAT IF d IS NOT A NUMBER??????
+		});
+
+		$.get(TURBOBOOST_URL, function(d) {
+			console.log("NEW NOISE LEVEL: ", d);
+		});
+
+	}, REFRESH_INTERVAL);
 }); 
 
 

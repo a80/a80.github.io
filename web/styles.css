@@ -39,7 +39,7 @@ body {
 
 #temp {
 	position: absolute;
-	top: 900px;
+	top: 815px;
 }
 
 #projectHeader {
@@ -60,8 +60,8 @@ body {
 #map-div {
 	position: absolute; 
 	z-index: 1000;
-	top: 60%; 
-	left: 71%;
+	top: 59%; 
+	left: 68%;
 }
 
 #factOverlay {

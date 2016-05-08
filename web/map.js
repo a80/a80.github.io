@@ -70,7 +70,8 @@ $(document).ready(function() {
 				minLon - delta, maxLat + delta ];
 		}
 
-		var width = 1200, height = 600;
+		//var width = 1200, height = 600;
+		var width = 425, height = 325;
 		var svg = d3.select("#map-svg").attr("width", width).attr("height", height);
 
 		d3.xml(routeFiles[selected_route], "application/xml", function(xml) {

@@ -12,6 +12,7 @@ $(document).ready(function() {
 
 	var selected_route = 0;
 	var rider_speed = INITIAL_SPEED;
+	var gameOver = false;
 
 	function loadMap() {
 
@@ -159,9 +160,39 @@ $(document).ready(function() {
 
 		popcorn.play();
 
-		setInterval(function() {
+		var timer;
+		timer = setInterval(function() {
 			var speedup = rider_speed / videoSpeed;
 			popcorn.playbackRate(speedup);
+
+		}, REFRESH_INTERVAL);
+
+		// STOP TIMER AFTER VIDEO STOPPED PLAYING
+		popcorn.on("ended", function() {
+			gameOver = true;
+			clearInterval(timer);
+		});
+	}
+
+	function startGame() {
+		animMap();
+		playVideo();
+
+		var timer;
+		timer = setInterval(function() {
+			$.get(SPEED_URL, function(d) {
+				console.log("NEW SPEED: ", d);
+				rider_speed = parseFloat(d); // @Judy: TODO
+			});
+
+			$.get(TURBOBOOST_URL, function(d) {
+				// @Eric: d is the current noise level. what is this supposed to do?
+				console.log("NEW NOISE LEVEL: ", d);
+			});
+
+			if (gameOver) {
+				clearInterval(timer);
+			}
 
 		}, REFRESH_INTERVAL);
 	}
@@ -169,35 +200,17 @@ $(document).ready(function() {
 	loadMap();
 	loadVideo();
 
-	$("#speed-slider").slider({
-		value: INITIAL_SPEED,
-		min: 5.0,
-		max: 100.0,
-		change: function(e, ui) {
-			rider_speed = ui.value;
-			console.log("NEW SPEED: ", rider_speed);
-		}
-	});
+	// $("#speed-slider").slider({
+	// 	value: INITIAL_SPEED,
+	// 	min: 5.0,
+	// 	max: 100.0,
+	// 	change: function(e, ui) {
+	// 		rider_speed = ui.value;
+	// 		console.log("NEW SPEED: ", rider_speed);
+	// 	}
+	// });
 
-	$("#anim-button").click(function() {
-		console.log("START ANIMATION");
-		animMap();
-		playVideo();
-	});
-
-	// START LISTENING FOR SPEED/AUDIENCE CHANGES
-	setInterval(function() {
-		$.get(SPEED_URL, function(d) {
-			console.log("NEW SPEED: ", d);
-			// rider_speed = parseFloat(d); // @Judy: TODO
-		});
-
-		$.get(TURBOBOOST_URL, function(d) {
-			// @Eric: d is the current noise level. what is this supposed to do?
-			console.log("NEW NOISE LEVEL: ", d);
-		});
-
-	}, REFRESH_INTERVAL);
+	$("#anim-button").click(startGame);
 }); 
 
 

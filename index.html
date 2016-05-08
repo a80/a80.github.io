@@ -4,38 +4,16 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
 	<script src="lib/polymaps.min.js"></script>
+
 	<script type="text/javascript" src="web/map.js"></script>
 	<link href="web/styles.css" rel="stylesheet">
-	<script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
 
-	<script> 
-		//TODO: Feed in speed input 
 
-		document.addEventListener( "DOMContentLoaded", function() {
-			var popcorn = Popcorn("#gameplayVid");
-			popcorn.play(); 
-
-			//dummy function to speed up/slowdown video
-			$(document).keydown(function(e) {
-				currentRate = popcorn.playbackRate(); //modify 
-				if (e.which == 38) {
-					console.log('increment speed');
-					popcorn.playbackRate(currentRate + 0.1); 
-					$('#turboBoostMessage').fadeIn().delay(1000).fadeOut();
-				} else if (e.which == 40) {
-					console.log('decrement speed'); 
-					popcorn.playbackRate(currentRate - 0.1); 
-					$('#turboBoostExpiredMessage').fadeIn().delay(1000).fadeOut();
-				}
-
-			}); 
-			
-		}, false );
-	</script> 
-
-	<script type="text/javascript" src="logic.js"></script> 
 </head>
 
 <body>
@@ -43,9 +21,12 @@
 		<h2>CMS.631 Final Project: Julia Appel, Judy Chang, Iris Fung, Eric Lau</h2>
 	</div>
 
+	<div><button id="anim-button">Play</button></div>
+	<div id="speed-slider" style="width: 200px;"></div>
+
 		<!-- Insert video - fullscreen --> 
-	<div id="videoDiv">
-		<video id="gameplayVid" width="800" height="600" name="Video Name" src="videos/gopro_harvard.mp4"></video>
+	<div id="video-div">
+		<video id="route-video" width="800" height="600"></video>
 	</div>
 
 	<!-- Map overlay -->

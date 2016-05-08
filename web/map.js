@@ -1,8 +1,17 @@
 $(document).ready(function() {
 
 	var routeFiles = ["data/downtown.xml", "data/harvard.xml"];
+	var routeVideos = ["videos/gopro_downtown_1.mp4", "videos/gopro_harvard.mp4"];
+	var routeLengths = [1.754790975154058, 1.7034939584209086]; // miles
+	var routeTimes = [9.9167, 8.7167]; // min
 
-	function loadMap(file) {
+	var INITIAL_SPEED = 9.6; // miles per hour
+	var SPEED_REFRESH_INTERVAL = 100; // millisecond
+
+	var selected_route = 0;
+	var rider_speed = INITIAL_SPEED;
+
+	function loadMap() {
 
 		function getRoutePts(xml) {
 			var json = { type: "LineString", coordinates: [] };
@@ -16,7 +25,7 @@ $(document).ready(function() {
 				json.coordinates.push([lon, lat]);
 			}
 
-			return { "geometry" : json };
+			return { type: "Feature", geometry : json };
 		}
 
 		function mapParams(route) {
@@ -58,9 +67,8 @@ $(document).ready(function() {
 		var width = 1200, height = 600;
 		var svg = d3.select("#map-svg").attr("width", width).attr("height", height);
 
-		d3.xml(file, "application/xml", function(xml) {
+		d3.xml(routeFiles[selected_route], "application/xml", function(xml) {
 			var route = getRoutePts(xml);
-
 			var params = mapParams(route);
 			console.log(route);
 
@@ -90,8 +98,6 @@ $(document).ready(function() {
 
 			// INITIALIZE RIDER
 			var path = $("#path")[0];
-			var pathLength = path.getTotalLength();
-			var numSegments = route.geometry.coordinates.length;
 
 			var rider = d3.select(path.parentElement)
 				.append("g")
@@ -107,33 +113,107 @@ $(document).ready(function() {
 			
 			map.add(po.compass().pan("none"));
 
-			var lengthCovered = 0;
-			var timeInterval = 100; // millisecond
-			var speed = 0.05; // bike speed
-
-			var timer;
-			timer = setInterval(function() {
-				var distance = timeInterval * speed;
-
-				rider.transition().duration(timeInterval).ease("linear")
-					.attrTween("transform", function() {
-						return function(t) {
-							var d = t * distance;
-							lengthCovered += d;
-							var point = path.getPointAtLength(lengthCovered);
-							return "translate(" + point.x + ", " + point.y + ")";
-						}
-					});
-
-				if (lengthCovered >= pathLength) {
-					clearInterval(timer);
-				}
-
-			}, timeInterval);
-
 		});
 	}
 
-	loadMap(routeFiles[1]);
+	function animMap() {
+		var lengthCovered = 0;
+		var rider = d3.selectAll(".rider");
+
+		var path = $("#path")[0];
+		var pathLength = path.getTotalLength();
+		var routeLength = routeLengths[selected_route];
+
+		var timer;
+		timer = setInterval(function() {
+			var svg_speed = rider_speed * pathLength / routeLength / 3600000.0;
+			var distance = SPEED_REFRESH_INTERVAL * svg_speed;
+
+			rider.transition().duration(SPEED_REFRESH_INTERVAL).ease("linear")
+				.attrTween("transform", function() {
+					return function(t) {
+						var d = t * distance;
+						lengthCovered += d;
+						var point = path.getPointAtLength(lengthCovered);
+						return "translate(" + point.x + ", " + point.y + ")";
+					}
+				});
+
+			if (lengthCovered >= pathLength) {
+				clearInterval(timer);
+			}
+
+		}, SPEED_REFRESH_INTERVAL);
+	}
+
+	function loadVideo() {
+		$("#route-video").attr("src", routeVideos[selected_route]);
+	}
+
+	function playVideo() {
+		var popcorn = Popcorn("#route-video");
+
+		var videoSpeed = routeLengths[selected_route] / routeTimes[selected_route] * 60; // julia's riding speed
+
+		popcorn.play();
+
+		setInterval(function() {
+			var speedup = rider_speed / videoSpeed;
+			popcorn.playbackRate(speedup);
+
+		}, SPEED_REFRESH_INTERVAL);
+	}
+
+	loadMap();
+	loadVideo();
+
+	$("#speed-slider").slider({
+		value: INITIAL_SPEED,
+		min: 5.0,
+		max: 20.0,
+		change: function(e, ui) {
+			rider_speed = ui.value;
+			console.log("NEW SPEED: ", rider_speed);
+		}
+	});
+
+	$("#anim-button").click(function() {
+		console.log("START ANIMATION");
+		animMap();
+		playVideo();
+	});
 }); 
+
+
+		// // factOverlay 
+		// var items = ["s_1", "s_2", "s_3", "s_4", "s_5", "s_6", "s_7", "s_8"];
+		// var delays = [19000, 32000, 45000, 58000, 71000, 84000, 97000, 110000];
+		// $('#mapOverlay').delay(delays[0]).fadeIn().delay(107000).fadeOut();
+
+		// for (var i = 0; i < items.length; i++) {
+		// 	$("#" + items[i]).delay(delays[i]).fadeIn(200).delay(12500).fadeOut(200);
+		// }
+
+		// //TODO: Feed in speed input 
+
+		// document.addEventListener( "DOMContentLoaded", function() {
+		// 	var popcorn = Popcorn("#gameplayVid");
+		// 	popcorn.play(); 
+
+		// 	//dummy function to speed up/slowdown video
+		// 	$(document).keydown(function(e) {
+		// 		currentRate = popcorn.playbackRate(); //modify 
+		// 		if (e.which == 38) {
+		// 			console.log('increment speed');
+		// 			popcorn.playbackRate(currentRate + 0.1); 
+		// 			$('#turboBoostMessage').fadeIn().delay(1000).fadeOut();
+		// 		} else if (e.which == 40) {
+		// 			console.log('decrement speed'); 
+		// 			popcorn.playbackRate(currentRate - 0.1); 
+		// 			$('#turboBoostExpiredMessage').fadeIn().delay(1000).fadeOut();
+		// 		}
+
+		// 	}); 
+			
+		// }, false );
 

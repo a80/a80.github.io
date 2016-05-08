@@ -1,5 +1,6 @@
 from flask import Flask
 from crossdomain import crossdomain
+import audience
 
 app = Flask(__name__)
 
@@ -10,7 +11,7 @@ def get_rider_speed():
 	return str(10)
 
 # GET CURRENT AUDIENCE NOISE LEVEL
-@app.route("/audience_input")
+@app.route("/audience")
 @crossdomain(origin='*')
 def get_audience_input() :
 	return str(0)

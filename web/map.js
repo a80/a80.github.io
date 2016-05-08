@@ -6,9 +6,9 @@ $(document).ready(function() {
 	var routeTimes = [9.9167, 8.7167]; // min
 
 	var INITIAL_SPEED = 9.6; // miles per hour
-	var REFRESH_INTERVAL = 200; // millisecond
+	var REFRESH_INTERVAL = 100; // millisecond
 	var SPEED_URL = "http://localhost:5000/speedometer";
-	var TURBOBOOST_URL = "http://localhost:5000/audience_input"
+	var TURBOBOOST_URL = "http://localhost:5000/audience"
 
 	var selected_route = 0;
 	var rider_speed = INITIAL_SPEED;

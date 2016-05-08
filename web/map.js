@@ -172,7 +172,7 @@ $(document).ready(function() {
 	$("#speed-slider").slider({
 		value: INITIAL_SPEED,
 		min: 5.0,
-		max: 20.0,
+		max: 100.0,
 		change: function(e, ui) {
 			rider_speed = ui.value;
 			console.log("NEW SPEED: ", rider_speed);
@@ -189,10 +189,11 @@ $(document).ready(function() {
 	setInterval(function() {
 		$.get(SPEED_URL, function(d) {
 			console.log("NEW SPEED: ", d);
-			rider_speed = parseFloat(d); // WHAT IF d IS NOT A NUMBER??????
+			// rider_speed = parseFloat(d); // @Judy: TODO
 		});
 
 		$.get(TURBOBOOST_URL, function(d) {
+			// @Eric: d is the current noise level. what is this supposed to do?
 			console.log("NEW NOISE LEVEL: ", d);
 		});
 

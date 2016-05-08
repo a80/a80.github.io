@@ -1,4 +1,5 @@
 from flask import Flask
+from multiprocessing import Process, Value
 from crossdomain import crossdomain
 import audience
 
@@ -14,7 +15,12 @@ def get_rider_speed():
 @app.route("/audience")
 @crossdomain(origin='*')
 def get_audience_input() :
-	return str(0)
+	return str(audience.noise_level.value)
+
+def setup() :
+	p_audience = Process(target=audience.listen_audio)
+	p_audience.start()
 
 if __name__ == '__main__':
+	setup()
 	app.run()

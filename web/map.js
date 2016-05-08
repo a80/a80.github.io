@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-	var routeFiles = ["data/downtown.xml", "data/harvard.xml"];
-	var routeVideos = ["videos/gopro_downtown_1.mp4", "videos/gopro_harvard.mp4"];
+	var routeFiles = ["resources/downtown.xml", "resources/harvard.xml"];
+	var routeVideos = ["resources/gopro_downtown_1.mp4", "resources/gopro_harvard.mp4"];
 	var routeLengths = [1.754790975154058, 1.7034939584209086]; // miles
 	var routeTimes = [9.9167, 8.7167]; // min
 

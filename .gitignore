@@ -1,0 +1,4 @@
+*.pyc
+server/venv
+.DS_Store
+.DS_Store?

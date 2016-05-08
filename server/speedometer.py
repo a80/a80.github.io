@@ -1,28 +1,36 @@
 import cv2
 import numpy as np
+from multiprocessing import Value
 
-cap = cv2.VideoCapture(0)
+rider_speed = Value('d', 0.0)
 
-prev_frame = None
+def detect_speed() :
 
-## BGR
-lower_red = np.array([0, 50, 50])
-higher_red = np.array([10, 255, 255])
+	rider_speed.value = 9.6
+	# cap = cv2.VideoCapture(0)
 
-while (True) :
-	_, frame = cap.read()
+	# prev_frame = None
 
-	hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+	# ## BGR
+	# lower_red = np.array([0, 50, 50])
+	# higher_red = np.array([10, 255, 255])
 
-	if prev_frame is not None :
+	# while (True) :
+	# 	_, frame = cap.read()
 
-		masked = cv2.inRange(hsv, lower_red, higher_red)
-		cv2.imshow("masked", masked)
+	# 	hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-	prev_frame = frame
+	# 	if prev_frame is not None :
 
-	if cv2.waitKey(1) & 0xFF == ord('q') :
-		break
+	# 		masked = cv2.inRange(hsv, lower_red, higher_red)
+	# 		cv2.imshow("masked", masked)
 
-cap.release()
-cv2.destroyAllWindows()
+	# 	prev_frame = frame
+
+	# 	if cv2.waitKey(1) & 0xFF == ord('q') :
+	# 		break
+
+	# cap.release()
+	# cv2.destroyAllWindows()
+
+

@@ -72,3 +72,5 @@ def detect_speed() :
 
 	cap.release()
 	cv2.destroyAllWindows()
+	
+# detect_speed()

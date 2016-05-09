@@ -83,8 +83,8 @@ $(document).ready(function() {
 			var map = po.map()
 				.container(document.getElementById("map-svg"))
 				.center({lon: params[0], lat: params[1]})
-				.zoom(15)
-				.zoomRange([15, 18])
+				.zoom(14)
+				.zoomRange([14, 18])
 				.add(po.interact());
 
 			map.add(po.image()

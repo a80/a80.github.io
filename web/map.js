@@ -173,6 +173,7 @@ $(document).ready(function() {
 		popcorn.on("ended", function() {
 			gameOver = true;
 			clearInterval(timer);
+			location.href = "end.html"; //transition to end page
 		});
 	}
 
@@ -220,11 +221,11 @@ $(document).ready(function() {
 		var popcorn = Popcorn("#route-video");
 		var currentPlaybackRate = popcorn.playbackRate(); 
 		popcorn.playbackRate(currentPlaybackRate + 0.1); 
-		$('#turboBoostMessage').fadeIn(3000).fadeOut(3000); 
+		$('#turboBoostMessage').fadeIn().delay(5000).fadeOut();
 
 		setTimeout(function() {
 			popcorn.playbackRate(currentPlaybackRate); 
-			$('#turboBoostExpiredMessage').fadeIn(3000).fadeOut(3000); 
+			$('#turboBoostExpiredMessage').fadeIn().delay(1000).fadeOut(); 
 		}, 5000)
 		//how to naturally speed up the vid, does it mesh?
 	}

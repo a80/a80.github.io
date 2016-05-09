@@ -1,0 +1,85 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<meta charset="utf-8">
+	<!-- BOOTSTRAP -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<!-- JQUERY and JQUERY UI -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+	<!-- MEDIA LIBARIES -->
+	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
+	<script src="web/lib/polymaps.min.js"></script>
+
+	<!-- SCRIPTS -->
+	<script type="text/javascript" src="web/map.js"></script>
+	<script type="text/javascript" src="web/commons_logic.js"></script>
+	<link href="web/styles.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="header-div">
+		<p id = "projectHeader"><strong style="color: #66FF33">CMS.631 Final Project:</strong> Julia Appel, Judy Chang, Iris Fung, Eric Lau</p>
+	</div>
+
+	<div id="welcomeScreenDiv">
+		<h1 id = "welcomeMessage">To get started, select a route!</h1> 
+		<!-- <div><button id="anim-button">Play</button></div> --> 
+
+		<div id="buttonDiv">
+			<button class="btn btn-default buttonGroup" id="harvardButton">Harvard</button> 
+
+			<button class="btn btn-default buttonGroup" id="commonsButton">Boston Common</button> 
+		</div> 
+	</div> 
+
+	<div id="gameplayDiv"> 
+		<!-- Insert video - fullscreen --> 
+		<div id="video-div">
+			<video id="route-video" width="800" height="600"></video>
+		</div>
+
+		<!-- Map overlay -->
+		<div id="map-div">
+			<svg id="map-svg"></svg>
+		</div>
+
+		<!-- Facts overlay --> 
+		<div id="factOverlay">
+			<h1 id='s_1'>Between October 2012 and November 2013, over 1.5 million people took a trip on a Hubway bike. Join them today!</h1> 
+			<h1 id='s_2'>More than 33,500 rides were taken from the Hubway station outside the MIT library. That’s almost 100 per day!</h1> 
+			<h1 id='s_3'>Hubway riders burned 108,489,602 calories in 2015. That’s almost 31,000 pounds! </h1> 
+			<h1 id='s_4'>Biking on Hubway is good for you, and the environment. In 2015, Hubway riders were responsible for a CO2 offset of more than 1.7 million pounds! </h1> 
+			<h1 id='s_5'>Annual Hubway membership has grown by more than four times. Help contribute to the increase in ridership! </h1> 
+			<h1 id='s_6'>There are over 160 Hubway terminals and 1600 bikes to ride around 3 cities in the Greater Boston area -- so many great places to go!</h1> 
+			<h1 id='s_7'>A study by the National Institutes of Health, showed that people who engaged in leisure-time physical activity increased the life expectancy by an average of 4.5 years.</h1> 
+			<h1 id='s_8'>There are 3 Hubway terminals sponsored by MIT around campus, plus another 3 near the Kendall Square T stop. </h1> 
+			<h1 id ='s_9'>A monthly T pass costs $75 -- that’s $900 a year! A yearly Hubway costs $80 -- or $25 for MIT students! </h1> 
+			<!-- Begin unique facts to Boston Common --> 
+			<h1 id ='s_10'>You’re joining the 969 people who rode to one of the 4 Hubway stops on Boston Commons</h1> 
+			<h1 id ='s_11'>If you rode to and from Boston Commons every weekday on Hubway, you’d be biking 1.7 miles per trip, 3.4 miles per day, and 17 miles a week. (850 miles a year!) </h1> 
+			<h1 id ='s_12'>Biking 1 mile at a comfortable pace of 10-12 miles/hour burns about 38 calories. That’s 130 calories on this commute.</h1> 
+			<h1 id ='s_13'>The average person could burn 9 pounds a year if they biked to and from Boston Commons every weekday!</h1> 
+			<h1 id ='s_14'>According to Google Maps, to get from 77 Mass Ave to Boston Commons, you’d need to take the Number 1 bus to Hynes Convention Center, wait for the Green Line, and take it to Arlington, for a total of a 16 minute commute, with no waiting time between transfers. How quickly can you do it? </h1> 
+
+
+		</div>
+
+		<!-- Turbo Boost Message --> 
+		<div id="turboBoostMessageDiv">
+			<h1 id="turboBoostMessage">TURBO BOOST!</h1> 
+			<h1 id="turboBoostExpiredMessage">TURBO BOOST expired.</h1> 
+		</div> 
+
+		<!-- Remove the following, pending speed control --> 
+		<div id = "temp">
+			<div><button id="anim-button">Play</button></div>
+			<div id="speed-slider" style="width: 200px;"></div>
+		</div> 
+	</div> 
+</body>
+</html>

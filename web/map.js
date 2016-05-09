@@ -189,6 +189,8 @@ $(document).ready(function() {
 			$.get(TURBOBOOST_URL, function(d) {
 				// @Eric: d is the current noise level. what is this supposed to do?
 				noise_level = parseFloat(d);
+
+				console.log("noise_level is ", noise_level)
 			});
 
 			if (gameOver) {

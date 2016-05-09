@@ -13,8 +13,8 @@ def detect_speed() :
 	## ADJUSTMENT FACTORS
 	lower_red = np.array([0, 0, 100])
 	higher_red = np.array([255, 255, 255])
-	hit_cutoff = 0.5
-	rect_w = 200
+	hit_cutoff = 0.2
+	rect_w = 60
 	rect_h = 300
 	wheel_radius = 18 ## inches
 
@@ -46,6 +46,8 @@ def detect_speed() :
 		nHits = np.sum(masked) / 255
 		pctHits = float(nHits) / rect_area
 
+		# print "HIT: ", pctHits
+
 		if pctHits > hit_cutoff:
 			if not prev_hit :
 				prev_hit = True
@@ -73,4 +75,4 @@ def detect_speed() :
 	cap.release()
 	cv2.destroyAllWindows()
 	
-# detect_speed()
+detect_speed()

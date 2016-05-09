@@ -181,6 +181,7 @@ $(document).ready(function() {
 		playVideo();
 
 		var timer;
+		var supportLevel = 0; 
 		timer = setInterval(function() {
 			$.get(SPEED_URL, function(d) {
 				rider_speed = parseFloat(d);
@@ -190,7 +191,21 @@ $(document).ready(function() {
 				// @Eric: d is the current noise level. what is this supposed to do?
 				noise_level = parseFloat(d);
 
-				console.log("noise_level is ", noise_level)
+				console.log("noise_level is ", noise_level); 
+
+				//audience support level 
+
+				if (noise_level > 100) {
+					supportLevel += 1; 
+					console.log(supportLevel); 
+
+					if (supportLevel > 200) {
+						console.log("TURBO BOOST!");
+						triggerTurboBoost();  
+						supportLevel = 0; 
+
+					}
+				}
 			});
 
 			if (gameOver) {
@@ -198,6 +213,20 @@ $(document).ready(function() {
 			}
 
 		}, REFRESH_INTERVAL);
+	}
+
+	function triggerTurboBoost() {
+		console.log("triggering Turbo Boost");
+		var popcorn = Popcorn("#route-video");
+		var currentPlaybackRate = popcorn.playbackRate(); 
+		popcorn.playbackRate(currentPlaybackRate + 0.1); 
+		$('#turboBoostMessage').fadeIn(3000).fadeOut(3000); 
+
+		setTimeout(function() {
+			popcorn.playbackRate(currentPlaybackRate); 
+			$('#turboBoostExpiredMessage').fadeIn(3000).fadeOut(3000); 
+		}, 5000)
+		//how to naturally speed up the vid, does it mesh?
 	}
 
 	loadMap();

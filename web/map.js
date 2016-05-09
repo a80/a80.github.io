@@ -5,7 +5,6 @@ $(document).ready(function() {
 	var routeLengths = [1.754790975154058, 1.7034939584209086]; // miles
 	var routeTimes = [9.9167, 8.7167]; // min
 
-	var INITIAL_SPEED = 9.6; // miles per hour
 	var REFRESH_INTERVAL = 100; // millisecond
 	var SPEED_URL = "http://localhost:5000/speedometer";
 	var TURBOBOOST_URL = "http://localhost:5000/audience"
@@ -14,7 +13,7 @@ $(document).ready(function() {
 	var gameOver = false;
 
 	// THE TWO VARIABLES THAT DRIVE EVERYTHING WOOOO
-	var rider_speed = INITIAL_SPEED;
+	var rider_speed = routeLengths[selected_route] / routeTimes[selected_route] * 60.0;
 	var noise_level = 0;
 
 	function loadMap() {
@@ -160,12 +159,11 @@ $(document).ready(function() {
 	function playVideo() {
 		var popcorn = Popcorn("#route-video");
 
-		var videoSpeed = routeLengths[selected_route] / routeTimes[selected_route] * 60; // julia's riding speed
-
 		popcorn.play();
 
 		var timer;
 		timer = setInterval(function() {
+			var videoSpeed = routeLengths[selected_route] / routeTimes[selected_route] * 60.0;
 			var speedup = rider_speed / videoSpeed;
 			popcorn.playbackRate(speedup);
 
@@ -186,13 +184,11 @@ $(document).ready(function() {
 		timer = setInterval(function() {
 			$.get(SPEED_URL, function(d) {
 				rider_speed = parseFloat(d);
-				console.log("RIDER SPEED: ", rider_speed);
 			});
 
 			$.get(TURBOBOOST_URL, function(d) {
 				// @Eric: d is the current noise level. what is this supposed to do?
 				noise_level = parseFloat(d);
-				console.log("NOISE LEVEL: ", noise_level);
 			});
 
 			if (gameOver) {
@@ -205,49 +201,5 @@ $(document).ready(function() {
 	loadMap();
 	loadVideo();
 
-	// $("#speed-slider").slider({
-	// 	value: INITIAL_SPEED,
-	// 	min: 5.0,
-	// 	max: 100.0,
-	// 	change: function(e, ui) {
-	// 		rider_speed = ui.value;
-	// 		console.log("NEW SPEED: ", rider_speed);
-	// 	}
-	// });
-
 	$("#anim-button").click(startGame);
 }); 
-
-
-		// // factOverlay 
-		// var items = ["s_1", "s_2", "s_3", "s_4", "s_5", "s_6", "s_7", "s_8"];
-		// var delays = [19000, 32000, 45000, 58000, 71000, 84000, 97000, 110000];
-		// $('#mapOverlay').delay(delays[0]).fadeIn().delay(107000).fadeOut();
-
-		// for (var i = 0; i < items.length; i++) {
-		// 	$("#" + items[i]).delay(delays[i]).fadeIn(200).delay(12500).fadeOut(200);
-		// }
-
-		// //TODO: Feed in speed input 
-
-		// document.addEventListener( "DOMContentLoaded", function() {
-		// 	var popcorn = Popcorn("#gameplayVid");
-		// 	popcorn.play(); 
-
-		// 	//dummy function to speed up/slowdown video
-		// 	$(document).keydown(function(e) {
-		// 		currentRate = popcorn.playbackRate(); //modify 
-		// 		if (e.which == 38) {
-		// 			console.log('increment speed');
-		// 			popcorn.playbackRate(currentRate + 0.1); 
-		// 			$('#turboBoostMessage').fadeIn().delay(1000).fadeOut();
-		// 		} else if (e.which == 40) {
-		// 			console.log('decrement speed'); 
-		// 			popcorn.playbackRate(currentRate - 0.1); 
-		// 			$('#turboBoostExpiredMessage').fadeIn().delay(1000).fadeOut();
-		// 		}
-
-		// 	}); 
-			
-		// }, false );
-

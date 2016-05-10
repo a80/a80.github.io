@@ -10,6 +10,6 @@ $(document).ready(function() {
 		$("#" + items[i]).delay(delays[i]).fadeIn(200).delay(12500).fadeOut(200);
 	} 
 
-	var popcorn =
+	// var popcorn =
 
 }); 

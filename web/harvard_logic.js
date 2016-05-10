@@ -1,18 +1,11 @@
 /* Javascript logic for video playback and overlays */
 
 $(document).ready(function() {
-	//$('#gameplayDiv').hide()
-
 	var items = ["s_1", "s_2", "s_3", "s_4", "s_5", "s_6", "s_7", "s_8", "s_9", "s_10", "s_11", "s_12", "s_13", "s_14"];
-	// var delays = [19000, 32000, 45000, 58000, 71000, 84000, 97000, 110000];
-		
-	// for (var i = 0; i < items.length; i++) {
-	// 	$("#" + items[i]).delay(delays[i]).fadeIn(200).delay(12500).fadeOut(200);
-	// } 
-
 	var popcorn = Popcorn("#route-video");
 	var totalTime = popcorn.duration(); 
 	var currentTime = 0; 
+
 	//var timeToActivate = range(0, totalTime, totalTime/items.length)
 	var timeToActivate = [10, 15, 20]; 
 	console.log("timeToActivate = ", timeToActivate); 
@@ -29,8 +22,6 @@ $(document).ready(function() {
 			}
 		}
 	}, 1000); 
-
-	//when the popcorn object returns
 
 	//range function 
 	function range(start, end, step) {

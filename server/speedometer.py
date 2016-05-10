@@ -14,7 +14,7 @@ def detect_speed() :
 	lower_red = np.array([0, 0, 100])
 	higher_red = np.array([255, 255, 255])
 	hit_cutoff = 0.2
-	rect_w = 60
+	rect_w = 40
 	rect_h = 300
 	wheel_radius = 18 ## inches
 

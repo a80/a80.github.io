@@ -14,7 +14,7 @@ $(document).ready(function() {
 	// THE VARIABLES THAT DRIVE EVERYTHING WOOOO
 	var selected_route = 0;
 	var base_speed = 15;
-	var rider_speedup = 2;
+	var rider_speedup = 1;
 	var popcorn; // video player
 	var popcorn_startTime;
 	var totalTimeOfVideo;

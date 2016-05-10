@@ -99,7 +99,7 @@ $(document).ready(function() {
 				.clip(false)
 				.on("load", 
 					po.stylist()
-						.style("stroke", "red")
+						.style("stroke", "#282828")
 						.style("fill", "none")
 						.style("stroke-width", 5)
 						.attr("id", "path"));
@@ -118,7 +118,7 @@ $(document).ready(function() {
 
 			rider.append("circle")
 				.attr("r", 15)
-				.style("fill", "blue").style("opacity", 1);
+				.style("fill", "#66FF33").style("opacity", 1).style("stroke", "#282828").style("stroke-width", 5);
 			
 			map.add(po.compass().pan("none"));
 
@@ -276,8 +276,17 @@ $(document).ready(function() {
 		}, 10000); 
 	}
 
-	function displayFacts() {
+	//helper functions for user input email 
+	$('#enterEmailBox').focusin(function() {
+		console.log("gain focus"); 
+		$(this).text(""); 
+	}); 
 
+	function inputFocus(i){
+	    if(i.value==i.defaultValue){ i.value=""; i.style.color="#000"; }
+	}
+	function inputBlur(i){
+	    if(i.value==""){ i.value=i.defaultValue; i.style.color="#888"; }
 	}
 
 	//Get appropriate route 

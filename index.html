@@ -18,7 +18,10 @@
 	<!-- SCRIPTS -->
 	<script type="text/javascript" src="web/map.js"></script>
 	<script type="text/javascript" src="web/logic.js"></script>
-	<link href="web/styles.css" rel="stylesheet">
+	<!-- <link href="web/styles.css" rel="stylesheet"> --> 
+
+	<!-- use with monitor -->
+	<link href="web/styles_monitor.css" rel="stylesheet"> 
 </head>
 
 <body>
@@ -27,8 +30,10 @@
 	</div>
 
 	<div id="welcomeScreenDiv">
-		<h1 id = "welcomeMessage">To get started, select a route!</h1> 
+		<h1 id = "welcomeMessage">To get started, please enter your email and select a route!</h1> 
 		<!-- <div><button id="anim-button">Play</button></div> --> 
+
+		<input type="text" name="enterEmail" id="enterEmailBox" style="color:#888;" placeholder="Enter Email" autofocus>
 
 		<div id="buttonDiv">
 			<a href="harvard.html" class="btn btn-info buttonGroup" role="button" id="harvardButton">Harvard</a>

@@ -19,8 +19,6 @@
 	<script type="text/javascript" src="web/map.js"></script>
 	<script type="text/javascript" src="web/logic.js"></script>
 
-	<!-- <link href="web/styles.css" rel="stylesheet"> --> 
-
 	<!-- use with monitor -->
 	<link href="web/styles_monitor.css" rel="stylesheet"> 
 </head>
@@ -32,13 +30,14 @@
 
 	<div id="endScreenDiv">
 		<h1 class = "endMessage">Stats of your bike ride! </h1>
-		<h2 class = "endMessageSecondary">Distance Covered: ?</h2>
-		<h2 class = "endMessageSecondary">Biking Duration: ?</h2>
-		<h2 class = "endMessageSecondary">Average Speed: ?</h2> 
-		<h2 class = "endMessageSecondary">Calories Burned: ? </h2> 
+		<h2 class = "endMessageSecondary" id="stat-distance">Distance Covered: ?</h2>
+		<h2 class = "endMessageSecondary" id="stat-duration">Biking Duration: ?</h2>
+		<h2 class = "endMessageSecondary" id="stat-speed">Average Speed: ?</h2> 
+		<h2 class = "endMessageSecondary" id="stat-calories">Calories Burned: ? </h2> 
 		<h1 class = "endMessage">Thank you for playing. We've sent an email to you with a surprise!</h1>  
 	</div> 
 
+	<script type="text/javascript" src="web/end.js"></script>
 	<!-- display other one based on whether the user "won" or not. -->
 </body>
 </html>

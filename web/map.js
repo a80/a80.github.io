@@ -2,6 +2,7 @@ $(document).ready(function() {
 
 	var routeFiles = ["resources/downtown.xml", "resources/harvard.xml"];
 	var routeVideos = ["resources/gopro_downtown_1.mp4", "resources/gopro_harvard.mp4"];
+	var routeLengths = [1.754790975154058, 1.7034939584209086]; // miles
 	var routeTimes = [9.9167, 8.7167]; // min
 
 	var REFRESH_INTERVAL = 100; // millisecond
@@ -15,6 +16,7 @@ $(document).ready(function() {
 	var base_speed = 15;
 	var rider_speedup = 2;
 	var popcorn; // video player
+	var popcorn_startTime;
 	var totalTimeOfVideo;
 
 	var turboBoosting = false; 
@@ -160,6 +162,7 @@ $(document).ready(function() {
 
 	function playVideo() {
 		popcorn.play();
+		popcorn_startTime = Date.now();
 		totalTimeOfVideo = popcorn.duration();
 
 		console.log("total Time of Video = ", totalTimeOfVideo); 
@@ -197,7 +200,11 @@ $(document).ready(function() {
 		popcorn.on("ended", function() {
 			gameOver = true;
 			clearInterval(timer);
-			location.href = "end.html"; //transition to end page
+			var endTime = Date.now();
+			var dist = routeLengths[selected_route]; // miles
+			var dur = (endTime - popcorn_startTime) / 1000.0 / 60.0; // minutes
+
+			location.href = "end.html?distance=" + dist + "&duration=" + dur; //transition to end page
 		});
 	}
 

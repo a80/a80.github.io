@@ -10,13 +10,13 @@ $(document).ready(function() {
 
 	var gameOver = false;
 
-	var totalTimeOfVideo; 
-
-	// THE TWO VARIABLES THAT DRIVE EVERYTHING WOOOO
+	// THE VARIABLES THAT DRIVE EVERYTHING WOOOO
 	var selected_route = 0;
-	var base_speed = 10;
-	var rider_speedup = 1;
-	var noise_level = 0;
+	var base_speed = 15;
+	var rider_speedup = 2;
+	var popcorn; // video player
+	var totalTimeOfVideo;
+
 	var turboBoosting = false; 
 
 	function loadMap() {
@@ -133,21 +133,20 @@ $(document).ready(function() {
 		var pathLength = path.getTotalLength();
 
 		var timer;
-		var unit_speed = pathLength / routeTimes[selected_route] / 60000.0; // px per ms
-
+		var pctTravelled = 0.0;
+		
 		timer = setInterval(function() {			
-			var distance = REFRESH_INTERVAL * unit_speed * rider_speedup;
+
 			rider.transition().duration(REFRESH_INTERVAL).ease("linear")
 				.attrTween("transform", function() {
 					return function(t) {
-						var d = t * distance;
-						lengthCovered += d;
-						var point = path.getPointAtLength(lengthCovered);
+						pctTravelled = popcorn.currentTime() / totalTimeOfVideo;
+						var point = path.getPointAtLength(pathLength * pctTravelled);
 						return "translate(" + point.x + ", " + point.y + ")";
 					}
 				});
 
-			if (lengthCovered >= pathLength) {
+			if (pctTravelled >= 1.0) {
 				clearInterval(timer);
 			}
 
@@ -156,13 +155,12 @@ $(document).ready(function() {
 
 	function loadVideo() {
 		$("#route-video").attr("src", routeVideos[selected_route]);
+		popcorn = Popcorn("#route-video");
 	}
 
 	function playVideo() {
-		var popcorn = Popcorn("#route-video");
-
 		popcorn.play();
-		totalTimeOfVideo = popcorn.duration(); 
+		totalTimeOfVideo = popcorn.duration();
 
 		console.log("total Time of Video = ", totalTimeOfVideo); 
 		var items = ["s_1", "s_2", "s_3", "s_4", "s_5", "s_6", "s_7", "s_8", "s_9", "s_10", "s_11", "s_12", "s_13", "s_14"];
@@ -172,19 +170,13 @@ $(document).ready(function() {
 
 		var timer;
 		timer = setInterval(function() {
-			//console.log("SPEEDUP: ", rider_speedup);
 			popcorn.playbackRate(rider_speedup);
 			
 			var elapsed = (popcorn.played().end(0))/totalTimeOfVideo; 
-			//console.log("percentage elapsed = ", elapsed);
-
 			var percentageOfNextItemToShow = percentageToShow.shift(); 
-
-			console.log("comparing ", percentageOfNextItemToShow, " to current ", elapsed); 
 
 			if (elapsed >= percentageOfNextItemToShow) {
 				var itemToShow = items.shift(); 
-				//console.log("in if loop");
 
 				if (isShowing) {
 					$("#" + itemBeingShown).fadeOut(200);
@@ -195,23 +187,10 @@ $(document).ready(function() {
 					$("#" + itemToShow).fadeIn(200).delay(30000).fadeOut(200);
 				}
 			} else {
-				//console.log("in else loop"); 
 				//replace item 
 				percentageToShow.unshift(percentageOfNextItemToShow); 
 			}
 
-			// loop1:
-			// for (var i = 0; i < percentageToShow.length; i++) {
-			// 	loop2: 
-			// 	if (elapsed > percentageToShow[i]) {
-			// 		console.log("show fact at percentage", percentageToShow[i]); 
-			// 		percentageToShow.splice(i, 1);
-			// 		$("#" + items[i]).delay(delays[i]).fadeIn(200).delay(2000).fadeOut(200);
-			// 		items.splice(i, 1);
-			// 		console.log(percentageToShow, items); 
-			// 		break loop1; 
-			// 	}
-			// }
 		}, REFRESH_INTERVAL);
 
 		// STOP TIMER AFTER VIDEO STOPPED PLAYING
@@ -236,9 +215,7 @@ $(document).ready(function() {
 
 			$.get(TURBOBOOST_URL, function(d) {
 				// @Eric: d is the current noise level. what is this supposed to do?
-				noise_level = parseFloat(d);
-
-				//console.log("noise_level is ", noise_level); 
+				var noise_level = parseFloat(d);
 
 				//audience support level 
 				if ((noise_level > 100) && (!turboBoosting)) {
@@ -264,7 +241,7 @@ $(document).ready(function() {
 		turboBoosting = true; 
 		console.log("triggering Turbo Boost");
 		var original_rider_speedup = rider_speedup;
-		rider_speedup = rider_speedup + 0.5; 
+		rider_speedup = Math.min(2, rider_speedup + 0.2); 
 
 		console.log("original rider speed up is ", original_rider_speedup, ", new speed up = ", rider_speedup); 
 		$('#turboBoostMessage').fadeIn().delay(9000).fadeOut();

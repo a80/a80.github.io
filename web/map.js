@@ -224,12 +224,14 @@ $(document).ready(function() {
 				// @Eric: d is the current noise level. what is this supposed to do?
 				var noise_level = parseFloat(d);
 
+				console.log("noise level = ", noise_level); 
+
 				//audience support level 
-				if ((noise_level > 100) && (!turboBoosting)) {
+				if ((noise_level > 500) && (!turboBoosting)) {
 					supportLevel += 1; 
 					console.log(supportLevel); 
 
-					if (supportLevel > 50) {
+					if (supportLevel > 100) {
 						console.log("TURBO BOOST!");
 						triggerTurboBoost();  
 						supportLevel = 0; 

@@ -88,13 +88,17 @@ body {
 #turboBoostMessageDiv {
 	position: absolute;
 	z-index: 3;
-	top: 50%; 
-	left: 50%;
+	top: 42%; 
+	left: 40%;
 	width: 675px;
 }
 
 #turboBoostMessage, #turboBoostExpiredMessage {
 	display: none;
+	color: #66FF33;
+	text-shadow: #000 0px 0px 5px,   #000 0px 0px 5px,   #000 0px 0px 5px,
+             #000 0px 0px 5px,   #000 0px 0px 5px,   #000 0px 0px 5px;
+    -webkit-font-smoothing: antialiased;
 }
 
 #buttonDiv {

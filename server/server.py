@@ -2,7 +2,7 @@ from flask import Flask
 from multiprocessing import Process, Value
 from crossdomain import crossdomain
 import audience
-import speedometer
+#import speedometer
 
 app = Flask(__name__)
 
@@ -21,8 +21,8 @@ def get_audience_input() :
 def setup() :
 	p_audience = Process(target=audience.listen_audio)
 	p_audience.start()
-	p_speedometer = Process(target=speedometer.detect_speed)
-	p_speedometer.start()
+	#p_speedometer = Process(target=speedometer.detect_speed)
+	#p_speedometer.start()
 
 if __name__ == '__main__':
 	setup()

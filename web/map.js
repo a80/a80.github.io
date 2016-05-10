@@ -17,6 +17,7 @@ $(document).ready(function() {
 	var base_speed = 10;
 	var rider_speedup = 1;
 	var noise_level = 0;
+	var turboBoosting = false; 
 
 	function loadMap() {
 
@@ -166,23 +167,51 @@ $(document).ready(function() {
 		console.log("total Time of Video = ", totalTimeOfVideo); 
 		var items = ["s_1", "s_2", "s_3", "s_4", "s_5", "s_6", "s_7", "s_8", "s_9", "s_10", "s_11", "s_12", "s_13", "s_14"];
 		var percentageToShow = [.06, 0.12, .18, .24, .3, .36, .42, .48, .54, .6, .66, .72, .78, .84]; 
+		var isShowing = false; 
+		var itemBeingShown = null; 
 
 		var timer;
 		timer = setInterval(function() {
-			console.log("SPEEDUP: ", rider_speedup);
+			//console.log("SPEEDUP: ", rider_speedup);
 			popcorn.playbackRate(rider_speedup);
 			
-			var elapsed = popcorn.played().end(0); 
-			console.log("percentage elapsed = ", elapsed/totalTimeOfVideo);
+			var elapsed = (popcorn.played().end(0))/totalTimeOfVideo; 
+			//console.log("percentage elapsed = ", elapsed);
 
-			for (var i = 0; i < timeToActivate.length; i++) {
-				if (currentTime > percentageToShow[i]) {
-					console.log("show fact at percentage", percentageToShow[i]); 
-					percentageToShow.splice(i, 1);
-					$("#" + items[i]).delay(delays[i]).fadeIn(200).delay(2000).fadeOut(200);
-					items.splice(i, 1);
+			var percentageOfNextItemToShow = percentageToShow.shift(); 
+
+			console.log("comparing ", percentageOfNextItemToShow, " to current ", elapsed); 
+
+			if (elapsed >= percentageOfNextItemToShow) {
+				var itemToShow = items.shift(); 
+				//console.log("in if loop");
+
+				if (isShowing) {
+					$("#" + itemBeingShown).fadeOut(200);
+					$("#" + itemToShow).delay(250).fadeIn(200).delay(30000).fadeOut(200);
+					itemBeingShown = itemToShow; 
+				} else {
+					isShowing = true; 
+					$("#" + itemToShow).fadeIn(200).delay(30000).fadeOut(200);
 				}
+			} else {
+				//console.log("in else loop"); 
+				//replace item 
+				percentageToShow.unshift(percentageOfNextItemToShow); 
 			}
+
+			// loop1:
+			// for (var i = 0; i < percentageToShow.length; i++) {
+			// 	loop2: 
+			// 	if (elapsed > percentageToShow[i]) {
+			// 		console.log("show fact at percentage", percentageToShow[i]); 
+			// 		percentageToShow.splice(i, 1);
+			// 		$("#" + items[i]).delay(delays[i]).fadeIn(200).delay(2000).fadeOut(200);
+			// 		items.splice(i, 1);
+			// 		console.log(percentageToShow, items); 
+			// 		break loop1; 
+			// 	}
+			// }
 		}, REFRESH_INTERVAL);
 
 		// STOP TIMER AFTER VIDEO STOPPED PLAYING
@@ -209,10 +238,10 @@ $(document).ready(function() {
 				// @Eric: d is the current noise level. what is this supposed to do?
 				noise_level = parseFloat(d);
 
-				console.log("noise_level is ", noise_level); 
+				//console.log("noise_level is ", noise_level); 
 
 				//audience support level 
-				if (noise_level > 100) {
+				if ((noise_level > 100) && (!turboBoosting)) {
 					supportLevel += 1; 
 					console.log(supportLevel); 
 
@@ -232,6 +261,7 @@ $(document).ready(function() {
 	}
 
 	function triggerTurboBoost() {
+		turboBoosting = true; 
 		console.log("triggering Turbo Boost");
 		var original_rider_speedup = rider_speedup;
 		rider_speedup = rider_speedup + 0.5; 
@@ -242,6 +272,7 @@ $(document).ready(function() {
 		setTimeout(function() {
 			rider_speedup = original_rider_speedup; 
 			$('#turboBoostExpiredMessage').fadeIn().delay(1000).fadeOut(); 
+			turboBoosting = false; 
 		}, 10000); 
 	}
 

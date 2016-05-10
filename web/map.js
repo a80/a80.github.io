@@ -2,18 +2,18 @@ $(document).ready(function() {
 
 	var routeFiles = ["resources/downtown.xml", "resources/harvard.xml"];
 	var routeVideos = ["resources/gopro_downtown_1.mp4", "resources/gopro_harvard.mp4"];
-	var routeLengths = [1.754790975154058, 1.7034939584209086]; // miles
 	var routeTimes = [9.9167, 8.7167]; // min
 
 	var REFRESH_INTERVAL = 100; // millisecond
 	var SPEED_URL = "http://localhost:5000/speedometer";
 	var TURBOBOOST_URL = "http://localhost:5000/audience"
 
-	var selected_route = 0;
 	var gameOver = false;
 
 	// THE TWO VARIABLES THAT DRIVE EVERYTHING WOOOO
-	var rider_speed = routeLengths[selected_route] / routeTimes[selected_route] * 60.0;
+	var selected_route = 0;
+	var base_speed = 10;
+	var rider_speedup = 1;
 	var noise_level = 0;
 
 	function loadMap() {
@@ -128,13 +128,12 @@ $(document).ready(function() {
 
 		var path = $("#path")[0];
 		var pathLength = path.getTotalLength();
-		var routeLength = routeLengths[selected_route];
 
 		var timer;
-		timer = setInterval(function() {
-			var svg_speed = rider_speed * pathLength / routeLength / 3600000.0;
-			var distance = REFRESH_INTERVAL * svg_speed;
+		var unit_speed = pathLength / routeTimes[selected_route] / 60000.0; // px per ms
 
+		timer = setInterval(function() {			
+			var distance = REFRESH_INTERVAL * unit_speed * rider_speedup;
 			rider.transition().duration(REFRESH_INTERVAL).ease("linear")
 				.attrTween("transform", function() {
 					return function(t) {
@@ -149,7 +148,7 @@ $(document).ready(function() {
 				clearInterval(timer);
 			}
 
-		}, REFRESH_INTERVAL);
+		}, 0);
 	}
 
 	function loadVideo() {
@@ -163,9 +162,8 @@ $(document).ready(function() {
 
 		var timer;
 		timer = setInterval(function() {
-			var videoSpeed = routeLengths[selected_route] / routeTimes[selected_route] * 60.0;
-			var speedup = rider_speed / videoSpeed;
-			popcorn.playbackRate(speedup);
+			console.log("SPEEDUP: ", rider_speedup);
+			popcorn.playbackRate(rider_speedup);
 
 		}, REFRESH_INTERVAL);
 
@@ -185,7 +183,8 @@ $(document).ready(function() {
 		var supportLevel = 0; 
 		timer = setInterval(function() {
 			$.get(SPEED_URL, function(d) {
-				rider_speed = parseFloat(d);
+				console.log("GOT SPEED: ", d);
+				rider_speedup = Math.min(2, parseFloat(d) / base_speed);
 			});
 
 			$.get(TURBOBOOST_URL, function(d) {
@@ -195,7 +194,6 @@ $(document).ready(function() {
 				console.log("noise_level is ", noise_level); 
 
 				//audience support level 
-
 				if (noise_level > 100) {
 					supportLevel += 1; 
 					console.log(supportLevel); 

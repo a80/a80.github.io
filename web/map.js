@@ -196,7 +196,7 @@ $(document).ready(function() {
 
 				//audience support level 
 
-				if (noise_level > 100) {
+				if (noise_level > 1000) {
 					supportLevel += 1; 
 					console.log(supportLevel); 
 
@@ -204,7 +204,6 @@ $(document).ready(function() {
 						console.log("TURBO BOOST!");
 						triggerTurboBoost();  
 						supportLevel = 0; 
-
 					}
 				}
 			});
@@ -218,13 +217,20 @@ $(document).ready(function() {
 
 	function triggerTurboBoost() {
 		console.log("triggering Turbo Boost");
-		var popcorn = Popcorn("#route-video");
-		var currentPlaybackRate = popcorn.playbackRate(); 
-		popcorn.playbackRate(currentPlaybackRate + 0.1); 
+
+		// var popcorn = Popcorn("#route-video");
+		// var currentPlaybackRate = popcorn.playbackRate(); 
+		// popcorn.playbackRate(currentPlaybackRate + 0.1); 
+
+		var original_rider_speed = rider_speed;
+		rider_speed = rider_speed + 100; 
+
+		console.log("original rider speed is ", original_rider_speed, ", new speed = ", rider_speed); 
 		$('#turboBoostMessage').fadeIn().delay(5000).fadeOut();
 
 		setTimeout(function() {
-			popcorn.playbackRate(currentPlaybackRate); 
+			rider_speed = original_rider_speed; 
+			//popcorn.playbackRate(currentPlaybackRate); 
 			$('#turboBoostExpiredMessage').fadeIn().delay(1000).fadeOut(); 
 		}, 5000)
 		//how to naturally speed up the vid, does it mesh?
